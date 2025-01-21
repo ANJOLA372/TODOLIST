@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<!-- saved from url=(0063)file:///C:/Users/trademkt.adhoc3/Desktop/TODOLIST/todolist.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>To-Do List App</title>
+  <link rel="stylesheet" href="file:///C:/Users/trademkt.adhoc3/Desktop/TODOLIST/styles.css">
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background-image: url(best);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.todo-app {
+  background-color: rgb(133, 95, 95);
+  background-repeat: no-repeat;
+  padding: 20px;
+  margin-left: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 1000px;
+  height: 500px;
+}
+
+h1 {
+  text-align: center;
+  font-size: 35px;
+}
+
+input {
+  width: 30%;
+  padding: 8px;
+  margin-bottom: 100px;
+  border-radius: 25px;
+  border: 5px solid #ccc;
+  margin-left: 50px;
+}
+
+button {
+  width: 40%;
+  padding: 8px;
+  background-color: #a42727;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #bcd71f;
+}
+
+ul {
+  list-style-type:none;
+  padding-left: 0;
+}
+
+li {
+  background-color: #f1f1f1;
+  padding: 10px;
+  margin-bottom: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 4px;
+}
+
+li button {
+  background-color: #f44336;
+  border: none;
+  color: white;
+  padding: 5px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+li button:hover {
+  background-color: #d32f2f;
+}
+
+</style></head>
+
+<body>
+  <div class="todo-app">
+    <h1>To-Do List</h1>
+    <input type="text" id="taskInput" placeholder="Enter a new task">
+    <button id="addTaskBtn">Add Task</button>
+    <ul id="taskList"></ul>
+  </div>
+  <script>
+ // Get DOM elements
+const taskInput = document.getElementById('taskInput');
+const addTaskBtn = document.getElementById('addTaskBtn');
+const taskList = document.getElementById('taskList');
+
+// Initialize the app
+function initializeApp() {
+  // Load tasks from localStorage
+  let tasks = loadTasksFromLocalStorage();
+  
+  // Render tasks to the UI
+  renderTasks(tasks);
+  
+  // Attach event listener for the "Add Task" button
+  addTaskBtn.addEventListener('click', () => addTask(tasks));
+}
+
+// Load tasks from localStorage
+function loadTasksFromLocalStorage() {
+  const storedTasks = localStorage.getItem('tasks');
+  return storedTasks ? JSON.parse(storedTasks) : [];
+}
+
+// Save tasks to localStorage
+function saveTasksToLocalStorage(tasks) {
+  localStorage.setItem('tasks', JSON.stringify(tasks));
+}
+
+// Render the tasks to the UI
+function renderTasks(tasks) {
+  taskList.innerHTML = ''; // Clear the existing list
+  tasks.forEach((task, index) => {
+    const taskElement = createTaskElement(task, index, tasks);
+    taskList.appendChild(taskElement);
+  });
+}
+
+// Create a task element
+function createTaskElement(task, index, tasks) {
+  const li = document.createElement('li');
+  li.innerHTML = `
+    <span contenteditable="true" onblur="updateTask(${index}, this.innerText, tasks)">${task}</span>
+    <button class="deleteBtn">Delete</button>
+  `;
+  
+  // Add event listener for delete button
+  const deleteButton = li.querySelector('.deleteBtn');
+  deleteButton.addEventListener('click', function() {
+    deleteTask(index, tasks);
+  });
+  
+  return li;
+}
+
+// Add a new task
+function addTask(tasks) {
+  const taskText = taskInput.value.trim();
+  if (taskText) {
+    tasks.push(taskText); // Add new task to the array
+    taskInput.value = ''; // Clear input
+    saveTasksToLocalStorage(tasks); // Save to localStorage
+    renderTasks(tasks); // Re-render the tasks
+  }
+}
+
+// Update an existing task
+function updateTask(index, newText, tasks) {
+  tasks[index] = newText; // Update the task text
+  saveTasksToLocalStorage(tasks); // Save the updated list
+  renderTasks(tasks); // Re-render the tasks
+}
+
+// Delete a task
+function deleteTask(index, tasks) {
+  tasks.splice(index, 1); // Remove the task from the array
+  saveTasksToLocalStorage(tasks); // Save the updated list
+  renderTasks(tasks); // Re-render the tasks
+}
+
+// Initialize the app when the page loads
+initializeApp();
+  </script>
+  
+
+
+</body></html>
