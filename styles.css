@@ -1,15 +1,19 @@
 body {
-    font-family: Arial, sans-serif;
-    background-image: url(best);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-  }
+  font-family: Arial, sans-serif;
+  background-image: url('download.jpeg'); 
+  background-repeat: no-repeat;
+  background-size: cover; 
+  background-position: center; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
   
   .todo-app {
-    background-color: rgb(249, 238, 238);
+    background-color: #FAFAFA;
     background-repeat: no-repeat;
     padding: 20px;
     margin-left: 20px;
@@ -26,21 +30,38 @@ body {
   
   input {
     width: 30%;
-    padding: 8px;
+    padding: 10px;
     margin-bottom: 100px;
-    border-radius: 25px;
-    border: 5px solid #ccc;
-    margin-left: 50px;
-  }
-  
+    border: 1px solid #ccc;
+    margin-left: 180px;
+    position: relative; /* Necessary for the pseudo-element */
+    box-shadow: 2px 5px 5px rgba(208, 128, 209, 0.2); /* Regular shadow */
+}
+
+/* Pseudo-element to add the gradient shadow effect */
+input::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 20px; /* Height of the shadow effect */
+    background: linear-gradient(120deg, #C973FF, #AEBAF8); /* Gradient shadow */
+    z-index: -1; /* Keeps the shadow behind the input element */
+}
+
+
+
+
   button {
     width: 40%;
     padding: 8px;
-    background-color: #a42727;
+    background: linear-gradient(120deg,#C973FF,#AEBAF8);
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    margin: 20px;
   }
   
   button:hover {
